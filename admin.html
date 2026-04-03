@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration | Secret d'Ange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --gold: #D4AF37;
+            --gold-light: #f4e9c1;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --radius-lg: 24px;
+            --radius-md: 12px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: var(--font-serif);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gold-text { color: var(--gold); }
+        .gold-bg { background-color: var(--gold); }
+        .btn-gold {
+            background-color: var(--gold);
+            color: black;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .sidebar-link.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border-right: 3px solid var(--gold);
+        }
+
+        .product-item {
+            cursor: move;
+            transition: transform 0.2s;
+        }
+        .product-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .ghost {
+            opacity: 0.5;
+            background: var(--gold-light) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f0f0f; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .category-column {
+            min-height: 200px;
+        }
+
+        #preview-modal img {
+            max-height: 80vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="flex bg-black">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass h-screen sticky top-0 flex flex-col p-6 hidden md:flex">
+        <div class="mb-12">
+            <h1 class="text-2xl font-bold tracking-tighter uppercase serif">
+                Secret <span class="gold-text">d'Ange</span>
+            </h1>
+        </div>
+
+        <nav class="flex-grow space-y-4">
+            <a href="#" class="sidebar-link active flex items-center gap-3 p-3 rounded-lg transition text-sm uppercase tracking-widest font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Catalogue
+            </a>
+            <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg transition text-sm uppercase tracking-widest font-bold opacity-60">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                Commandes
+            </a>
+            <a href="#" id="nav-settings" class="sidebar-link flex items-center gap-3 p-3 rounded-lg transition text-sm uppercase tracking-widest font-bold opacity-60">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Paramètres
+            </a>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-white/10">
+            <a href="index.html" class="flex items-center gap-3 p-3 text-sm text-gray-400 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Voir le Shop
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-8 overflow-y-auto h-screen">
+        <!-- Section Catalogue -->
+        <div id="section-catalogue">
+            <header class="flex justify-between items-center mb-12">
+                <div>
+                    <h2 class="text-3xl serif italic mb-2">Gestion du Catalogue</h2>
+                    <p class="text-gray-400 text-sm">Organisez vos produits et catégories de luxe.</p>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="exportProducts()" class="glass px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 border-gold/30 hover:border-gold transition text-gold">
+                        Exporter JSON
+                    </button>
+                    <button id="btn-add-category" class="glass px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 border-white/10 hover:border-gold/50 transition">
+                        Nouvelle Catégorie
+                    </button>
+                    <button id="btn-add-product" class="btn-gold px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                        Ajouter un Produit
+                    </button>
+                </div>
+            </header>
+
+            <!-- Product Board -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8" id="category-board">
+                <!-- Rempli dynamiquement -->
+            </div>
+        </div>
+
+        <!-- Section Settings -->
+        <div id="section-settings" class="hidden">
+            <div class="max-w-4xl">
+                <header class="mb-12">
+                     <h2 class="text-3xl serif italic mb-2">Paramètres de la Plateforme</h2>
+                     <p class="text-gray-400 text-sm">Contrôlez l'affichage public et les informations de contact.</p>
+                </header>
+
+                <div class="glass p-10 rounded-[32px] border-white/5 space-y-12">
+                    <div class="bg-gold/10 p-4 rounded-xl border border-gold/20 mb-8">
+                        <p class="text-[10px] uppercase font-bold tracking-widest gold-text mb-1">Mode Statique (Netlify)</p>
+                        <p class="text-xs text-gray-400">Pour sauvegarder vos modifications sur Netlify, cliquez sur 'Enregistrer' ou 'Exporter JSON', puis remplacez les fichiers dans votre projet local avant de redéployer.</p>
+                    </div>
+                    <section>
+                        <h3 class="text-xl serif italic gold-text mb-6">Affichage Principal</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Catégorie Accueil</label>
+                                <p class="text-[10px] text-gray-500 mb-2 italic">La catégorie qui sera affichée par défaut sur la page d'accueil.</p>
+                                <select id="setting-active-category" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-gold outline-none transition appearance-none text-white">
+                                    <option value="Tous">Toutes les catégories</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Visibilité sur Index</label>
+                                <p class="text-[10px] text-gray-500 mb-2 italic">Décidez quelles catégories afficher dans les filtres de la page d'accueil.</p>
+                                <div id="setting-categories-visibility" class="space-y-2 max-h-32 overflow-y-auto p-2 bg-white/5 rounded-xl border border-white/5">
+                                    <!-- Rempli par admin.js -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="h-px bg-white/5 w-full"></div>
+
+                    <section>
+                        <h3 class="text-xl serif italic gold-text mb-6">Localisation & Contact</h3>
+                        <div class="grid gap-6">
+                            <div>
+                                <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Adresse Physique</label>
+                                <input type="text" id="setting-address" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-1 focus:border-gold outline-none transition" placeholder="Ex: Boulevard du Mono, Lomé...">
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Google Maps Embed URL</label>
+                                <p class="text-[10px] text-gray-500 mb-2 italic">L'URL contenue dans l'attribut 'src' de l'iframe fournie par Google Maps.</p>
+                                <textarea id="setting-map-url" rows="3" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-1 focus:border-gold outline-none transition text-sm italic text-gray-400" placeholder="https://www.google.com/maps/embed?..."></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="pt-6">
+                        <button onclick="saveGlobalSettings()" class="btn-gold px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center gap-3">
+                            Enregistrer les réglages
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Form -->
+    <div id="product-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="glass p-8 rounded-[32px] w-full max-w-lg relative z-10 border-white/10 shadow-2xl">
+            <h3 class="text-2xl serif mb-6" id="modal-title">Ajouter un Secret</h3>
+            <form id="product-form" class="space-y-6">
+                <input type="hidden" id="p-id">
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Nom du produit</label>
+                        <input type="text" id="p-name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-1 focus:border-gold outline-none transition">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Prix (FCFA)</label>
+                            <input type="number" id="p-price" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-1 focus:border-gold outline-none transition">
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Catégorie</label>
+                            <select id="p-category" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-1 focus:border-gold outline-none transition appearance-none">
+                                <!-- Rempli dynamiquement -->
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-widest text-gray-400 flex justify-between">
+                            <span>Image (img/)</span>
+                        </label>
+                        <input type="text" id="p-img" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl mt-1 focus:border-gold outline-none transition" placeholder="ex: 5.png">
+                    </div>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-grow btn-gold py-4 rounded-2xl font-bold uppercase tracking-widest text-xs">Confirmer</button>
+                    <button type="button" onclick="closeModal()" class="px-8 border border-white/10 py-4 rounded-2xl text-xs uppercase font-bold hover:bg-white/5 transition">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div id="preview-modal" class="hidden fixed inset-0 z-[150] flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closePreview()"></div>
+        <div class="relative z-10 max-w-4xl w-full flex flex-col items-center">
+            <button onclick="closePreview()" class="absolute -top-12 right-0 text-white hover:text-gold transition text-4xl">&times;</button>
+            <img id="preview-img" src="" alt="Aperçu" class="rounded-2xl shadow-2xl border border-white/10">
+            <p id="preview-caption" class="mt-6 text-xl serif italic text-gold"></p>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

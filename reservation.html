@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation | Secret d'Ange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --gold: #D4AF37;
+            --gold-light: #f4e9c1;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --radius-lg: 24px;
+            --radius-md: 12px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #0f0f0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif { font-family: var(--font-serif); }
+        .gold-text { color: var(--gold); }
+        .gold-bg { background-color: var(--gold); }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-glass {
+            background: rgba(15, 15, 15, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: black;
+            transition: all 0.4s ease;
+            border-radius: var(--radius-md);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold) !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="header-glass sticky top-0 z-30 px-6 py-5 flex justify-between items-center">
+        <nav class="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em] font-medium">
+            <a href="index.html" class="hover:gold-text transition">Accueil</a>
+            <a href="shop.html" class="hover:gold-text transition">Shop</a>
+            <a href="reservation.html" class="hover:gold-text transition gold-text">Réservation</a>
+            <a href="contact.html" class="hover:gold-text transition">Contact</a>
+        </nav>
+        
+        <div class="text-2xl md:text-3xl font-bold tracking-tighter uppercase serif text-center">
+            Secret <span class="gold-text">d'Ange</span>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <a href="contact.html" class="hover:gold-text transition">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="min-h-screen py-24 flex items-center justify-center relative overflow-hidden">
+        <!-- Décoration -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] gold-bg/5 blur-[120px] rounded-full -z-10"></div>
+
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-[0.4em] gold-text font-bold mb-4 block">L'expérience Divine</span>
+                <h1 class="text-5xl md:text-7xl serif mb-6">Réservez votre <br><span class="italic font-normal">Instant d'Ange</span></h1>
+                <p class="text-gray-400 max-w-xl mx-auto leading-relaxed">
+                    Offrez-vous un moment de pureté et d'évasion dans notre institut à Lomé. Nos experts vous accueillent pour des soins d'exception.
+                </p>
+            </div>
+
+            <div class="glass p-10 md:p-16 rounded-[40px]">
+                <form onsubmit="handleReservation(event)" class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 mb-2 block">Nom Complet</label>
+                            <input type="text" required class="w-full p-4 rounded-xl text-sm" placeholder="Votre nom...">
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 mb-2 block">Numéro WhatsApp</label>
+                            <input type="tel" required class="w-full p-4 rounded-xl text-sm" placeholder="+228 ...">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 mb-2 block">Prestation Souhaitée</label>
+                            <select class="w-full p-4 rounded-xl text-sm">
+                                <option>Soin du Visage Signature</option>
+                                <option>Rituel Corps Éclat</option>
+                                <option>Pose Ongulaire de Luxe</option>
+                                <option>Consultation Beauté Divine</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 mb-2 block">Date & Heure Préférées</label>
+                            <input type="datetime-local" class="w-full p-4 rounded-xl text-sm">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full btn-gold py-5 uppercase text-xs font-bold tracking-[0.3em]">
+                        Confirmer ma Demande
+                    </button>
+                    
+                    <p class="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-6">
+                        Nous vous recontacterons via WhatsApp sous 2h pour confirmer votre créneau.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#0f0f0f] border-t border-white/5 pt-24 pb-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="text-3xl font-bold uppercase serif mb-8 tracking-widest">
+                Secret <span class="gold-text">d'Ange</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-10 mb-16 text-[10px] uppercase tracking-[0.2em] font-medium text-gray-500">
+                <a href="index.html" class="hover:gold-text transition">Accueil</a>
+                <a href="shop.html" class="hover:gold-text transition">Boutique</a>
+                <a href="reservation.html" class="hover:gold-text transition">Réservation</a>
+                <a href="contact.html" class="hover:gold-text transition">Contact</a>
+            </div>
+            <p class="text-[10px] text-gray-600 uppercase tracking-widest pt-12 border-t border-white/5">
+                &copy; 2024 Secret d'Ange • Nyékonakpoé, Lomé • Beauté Divine.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function handleReservation(e) {
+            e.preventDefault();
+            alert("Votre demande de réservation a été envoyée ! Un conseiller vous contactera par WhatsApp très prochainement.");
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>

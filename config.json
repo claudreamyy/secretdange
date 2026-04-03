@@ -1,0 +1,11 @@
+{
+    "default_product_name": "Nouveau Produit d'Ange",
+    "image_folder": "img",
+    "active_category": "Tous",
+    "location": {
+        "address": "Lomé, Togo (Nyékonakpoé, non loin de la Pharmacie Adjololo)",
+        "map_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.6534927503467!2d1.2009671!3d6.1264529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1023e1c113b28b7b%3A0x6336e84d4361541f!2zTG9tw6ksIFRvZ28!5e0!3m2!1sfr!2stg!4v1712165000000!5m2!1sfr!2stg"
+    },
+    "categories": ["Visage","Corps", "Cheveux", "parfum", "savon"],
+    "hidden_categories": ["parfum"]
+}
